@@ -1,0 +1,712 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Heirloom — The keepsake, in your hands</title>
+<meta name="description" content="See the book Heirloom makes from a lifetime of phone calls: a typeset keepsake edition in your parent's own words — a file that opens forever, and a print-ready PDF at 5.5 by 8.5 inches.">
+<meta name="robots" content="noindex, nofollow">
+<style>
+  :root{
+    color-scheme: light dark;
+    --paper:#e9e3d5; --paper-2:#f2ecdf; --edge:#d8cfba;
+    --ink:#26211b; --ink-soft:#5f5648;
+    --oxblood:#7e2b2b; --oxblood-ink:#f4ede0; --gilt:#9a7526;
+    --shadow: 20px 20px 60px rgba(38,33,27,.10);
+    --serif:"Palatino Linotype",Palatino,"Iowan Old Style","Book Antiqua",Georgia,"Times New Roman",serif;
+    --mono:"Courier New",ui-monospace,Menlo,Consolas,monospace;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{
+      --paper:#17140f; --paper-2:#211c15; --edge:#39312a;
+      --ink:#ebe3d3; --ink-soft:#a99c85;
+      --oxblood:#d1705f; --oxblood-ink:#17140f; --gilt:#c9a34e;
+      --shadow: 30px 30px 80px rgba(0,0,0,.45);
+    }
+  }
+  :root[data-theme="light"]{
+    color-scheme:light;
+    --paper:#e9e3d5; --paper-2:#f2ecdf; --edge:#d8cfba;
+    --ink:#26211b; --ink-soft:#5f5648;
+    --oxblood:#7e2b2b; --oxblood-ink:#f4ede0; --gilt:#9a7526;
+    --shadow: 20px 20px 60px rgba(38,33,27,.10);
+  }
+  :root[data-theme="dark"]{
+    color-scheme:dark;
+    --paper:#17140f; --paper-2:#211c15; --edge:#39312a;
+    --ink:#ebe3d3; --ink-soft:#a99c85;
+    --oxblood:#d1705f; --oxblood-ink:#17140f; --gilt:#c9a34e;
+    --shadow: 30px 30px 80px rgba(0,0,0,.45);
+  }
+
+  *{box-sizing:border-box}
+  body{margin:0}
+  .page{
+    background:var(--paper); color:var(--ink);
+    font-family:var(--serif); font-size:18px; line-height:1.65;
+    -webkit-font-smoothing:antialiased; overflow-x:hidden;
+  }
+  .wrap{max-width:1080px; margin:0 auto; padding:0 24px}
+  a{color:inherit}
+  h1,h2,h3{margin:0; font-weight:600; text-wrap:balance; line-height:1.12}
+
+  .label{
+    font-family:var(--mono); text-transform:uppercase; letter-spacing:.18em;
+    font-size:.7rem; color:var(--oxblood); font-weight:700;
+  }
+  .label.dim{color:var(--ink-soft)}
+
+  /* --- masthead --- */
+  header.mast{
+    position:sticky; top:0; z-index:40;
+    background:color-mix(in srgb, var(--paper) 86%, transparent);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--edge);
+  }
+  .mast-row{display:flex; align-items:center; justify-content:space-between; gap:16px; padding:14px 24px; max-width:1080px; margin:0 auto}
+  .brand{display:flex; align-items:baseline; gap:12px}
+  .brand b{font-size:1.4rem; letter-spacing:.02em; font-weight:600}
+  .brand .tag{font-family:var(--mono); font-size:.62rem; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-soft)}
+  .mast-actions{display:flex; align-items:center; gap:10px}
+  .theme-toggle{
+    background:none; border:1px solid var(--edge); color:var(--ink-soft);
+    width:34px; height:34px; border-radius:50%; cursor:pointer; font-size:.9rem; line-height:1;
+  }
+  .theme-toggle:hover{border-color:var(--oxblood); color:var(--oxblood)}
+
+  .btn{
+    display:inline-block; font-family:var(--mono); text-transform:uppercase;
+    letter-spacing:.12em; font-size:.72rem; font-weight:700;
+    padding:12px 20px; border-radius:2px; text-decoration:none; cursor:pointer;
+    border:1px solid var(--oxblood); background:var(--oxblood); color:var(--oxblood-ink);
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .btn:hover{transform:translateY(-1px)}
+  .btn.ghost{background:transparent; color:var(--oxblood)}
+  .btn.ghost:hover{background:color-mix(in srgb,var(--oxblood) 10%, transparent)}
+  .btn.small{padding:9px 15px}
+
+  /* =========================================================
+     HERO — the book as an object you can turn in your hands
+     ========================================================= */
+  .hero{
+    position:relative; min-height:calc(100vh - 63px);
+    display:grid; grid-template-columns:1fr; align-items:center;
+    padding:40px 0 60px;
+  }
+  @media(min-width:900px){
+    .hero{grid-template-columns:1.02fr .98fr; gap:40px; padding:20px 0 40px}
+  }
+  .hero-copy{max-width:34ch}
+  .hero .eyebrow{margin-bottom:20px}
+  .hero h1{font-size:clamp(2.3rem,5.4vw,3.7rem); letter-spacing:-.01em}
+  .hero h1 em{font-style:italic; color:var(--oxblood)}
+  .hero p.lede{font-size:1.22rem; color:var(--ink-soft); margin:24px 0 0; max-width:38ch}
+  .hero .cta-row{display:flex; flex-wrap:wrap; gap:14px; margin-top:32px}
+  .hero .fineprint{font-family:var(--mono); font-size:.66rem; letter-spacing:.05em; color:var(--ink-soft); margin-top:18px}
+
+  /* colorway chooser */
+  .cw-row{display:flex; align-items:center; gap:14px; margin-top:34px; flex-wrap:wrap}
+  .cw-row .cw-label{font-family:var(--mono); font-size:.64rem; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-soft)}
+  .swatches{display:flex; gap:10px}
+  /* a palette chip: the stock, the ink, the gilt — not a binding */
+  .swatch{
+    width:30px; height:30px; border-radius:50%; cursor:pointer; padding:0;
+    border:1px solid var(--sw-gilt); position:relative; outline-offset:3px; overflow:hidden;
+    background:linear-gradient(135deg, var(--sw-stock) 0 50%, var(--sw-accent) 50% 100%);
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .swatch:hover{transform:translateY(-2px)}
+  .swatch[aria-pressed="true"]{box-shadow:0 0 0 2px var(--paper),0 0 0 3px var(--oxblood)}
+  .swatch.iron{--sw-stock:#f5f3ea; --sw-accent:#263c63; --sw-gilt:#5f5226}
+  .swatch.oxb {--sw-stock:#f7f3e9; --sw-accent:#6d2424; --sw-gilt:#77591a}
+  .swatch.pea {--sw-stock:#f2ead6; --sw-accent:#0b3a34; --sw-gilt:#64480f}
+
+  /* stage + book */
+  .stage{
+    position:relative; display:flex; align-items:center; justify-content:center;
+    min-height:520px; perspective:1700px; perspective-origin:50% 42%;
+    touch-action:pan-y;
+  }
+  .glow{
+    position:absolute; width:70%; height:60%; border-radius:50%;
+    background:radial-gradient(closest-side, color-mix(in srgb,var(--gilt) 18%, transparent), transparent 70%);
+    filter:blur(30px); opacity:.45; pointer-events:none;
+  }
+  .float{transform-style:preserve-3d; animation:float 8s ease-in-out infinite}
+  @keyframes float{
+    0%,100%{transform:translateY(0) rotateZ(0deg)}
+    50%{transform:translateY(-14px) rotateZ(-.6deg)}
+  }
+  .tilt{
+    --rx:7deg; --ry:34deg;
+    position:relative; transform-style:preserve-3d;
+    transform:rotateX(var(--rx)) rotateY(var(--ry));
+    transition:transform .5s cubic-bezier(.2,.7,.2,1);
+  }
+  .dragging .tilt{transition:none}
+
+  /* The real deliverable: a 5.5 x 8.5 digest printed from the keepsake PDF.
+     Palettes below are the exact WCAG-verified PRINT hexes from
+     keepsake/assemble.py COLORWAYS — paper stock, not a binding. */
+  .book{
+    --W:288px; --H:445px; --D:19px;   /* digest trim; a ~90pp block is thin */
+    width:var(--W); height:var(--H); position:relative; transform-style:preserve-3d;
+    /* per-colorway (default irongall) */
+    --stock:#f5f3ea; --stock-2:#eae7db;
+    --bink:#181b21; --bink-soft:#454b57;
+    --accent:#263c63; --book-gilt:#5f5226; --gilt-hi:#7f7551; --gilt-dk:#524619;
+    --rule:#c6c2b2;
+  }
+  .book-root[data-cw="oxblood"] .book{
+    --stock:#f7f3e9; --stock-2:#ece5d2;
+    --bink:#1b1712; --bink-soft:#4a4438;
+    --accent:#6d2424; --book-gilt:#77591a; --gilt-hi:#927a48; --gilt-dk:#664d16;
+    --rule:#c9bfa8;
+  }
+  .book-root[data-cw="peacock"] .book{
+    --stock:#f2ead6; --stock-2:#e7dbbf;
+    --bink:#101d1a; --bink-soft:#3a453f;
+    --accent:#0b3a34; --book-gilt:#64480f; --gilt-hi:#836d3f; --gilt-dk:#563e0d;
+    --rule:#e0d6b8;
+  }
+  .face{position:absolute; top:0; overflow:hidden}
+
+  /* front cover — the printed cover sheet, matching keepsake-template.html */
+  .f-front{
+    left:0; width:var(--W); height:var(--H); transform:translateZ(calc(var(--D)/2));
+    background:
+      linear-gradient(300deg, rgba(90,74,48,.10), transparent 52%),
+      var(--stock);
+    border-radius:1px 3px 3px 1px;
+    box-shadow:inset 0 0 0 1px rgba(90,74,48,.10);
+    display:flex; flex-direction:column; align-items:center; text-align:center;
+    padding:30px 24px 22px; color:var(--bink);
+  }
+  /* letterpress frame — the template's hairline double rule */
+  .f-front::before{
+    content:""; position:absolute; inset:9px; pointer-events:none;
+    border:1px solid var(--rule);
+  }
+  .f-front::after{
+    content:""; position:absolute; inset:14px; pointer-events:none;
+    border:1px solid var(--book-gilt); opacity:.5;
+  }
+  .cover-wave{width:74%; margin:6px 0 0; color:var(--accent); position:relative; z-index:1}
+  .cover-wave svg{display:block; width:100%; height:auto}
+  .cover-cap{
+    position:relative; z-index:1; margin:14px 0 0;
+    font-family:var(--mono); font-size:.44rem; letter-spacing:.22em; text-transform:uppercase;
+    color:var(--bink-soft);
+  }
+  .cover-title{
+    position:relative; z-index:1; margin:auto 0; font-weight:600;
+    font-size:1.92rem; line-height:1.06; letter-spacing:.01em;
+    background:linear-gradient(var(--sheen-ang,104deg),
+      var(--gilt-dk) 4%, var(--book-gilt) 26%, var(--gilt-hi) 46%,
+      var(--book-gilt) 60%, var(--gilt-dk) 86%);
+    background-size:280% 100%; background-position:calc(var(--sheen,32) * 1%) 0;
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+    -webkit-text-fill-color:transparent;
+    text-shadow:0 1px 0 rgba(0,0,0,.18);
+  }
+  @supports not ((-webkit-background-clip:text) or (background-clip:text)){
+    .cover-title{color:var(--book-gilt); -webkit-text-fill-color:var(--book-gilt)}
+  }
+  .cover-fleuron{position:relative; z-index:1; width:66px; height:10px; color:var(--book-gilt); margin:14px 0}
+  .cover-fleuron svg{display:block;width:100%;height:100%}
+  .cover-byline{
+    position:relative; z-index:1; font-style:italic; font-size:.82rem; line-height:1.4;
+    color:var(--bink-soft); max-width:22ch; margin:0;
+  }
+  .cover-recorded{
+    position:relative; z-index:1; margin:14px 0 0; font-family:var(--mono);
+    font-size:.5rem; letter-spacing:.2em; text-transform:uppercase;
+    color:var(--bink-soft);
+  }
+  .cover-house{
+    position:relative; z-index:1; margin:auto 0 0; font-family:var(--mono);
+    font-size:.46rem; letter-spacing:.28em; text-transform:uppercase;
+    color:var(--bink-soft);
+  }
+
+  /* back cover — plain printed stock, with the press device */
+  .f-back{
+    left:0; width:var(--W); height:var(--H);
+    transform:translateZ(calc(var(--D)/-2)) rotateY(180deg);
+    background:linear-gradient(300deg, rgba(90,74,48,.12), transparent 55%), var(--stock);
+    border-radius:3px 1px 1px 3px;
+    box-shadow:inset 0 0 0 1px rgba(90,74,48,.10);
+  }
+  .f-back .press{
+    position:absolute; left:50%; top:86%; transform:translate(-50%,-50%);
+    color:var(--book-gilt); font-weight:600; font-size:.7rem;
+  }
+
+  /* spine — a slim printed square-back, no raised bands */
+  .f-spine{
+    left:calc(50% - var(--D)/2); width:var(--D); height:var(--H);
+    transform:rotateY(-90deg) translateZ(calc(var(--W)/2));
+    background:
+      linear-gradient(90deg, rgba(90,74,48,.22), transparent 30%, transparent 70%, rgba(90,74,48,.22)),
+      var(--stock);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .spine-txt{
+    writing-mode:vertical-rl; transform:rotate(180deg);
+    font-weight:600; font-size:.5rem; letter-spacing:.07em; white-space:nowrap;
+    color:var(--bink-soft);
+  }
+
+  /* fore-edge, head and tail — plain cut paper, no gilding */
+  .f-fore{
+    left:calc(50% - var(--D)/2); width:var(--D); height:var(--H);
+    transform:rotateY(90deg) translateZ(calc(var(--W)/2));
+    background:repeating-linear-gradient(0deg, var(--stock) 0 1.3px, var(--stock-2) 1.3px 2.4px);
+    box-shadow:inset 0 0 8px rgba(90,74,48,.18);
+  }
+  .f-top{
+    left:0; top:calc(50% - var(--D)/2); width:var(--W); height:var(--D);
+    transform:rotateX(90deg) translateZ(calc(var(--H)/2));
+    background:repeating-linear-gradient(90deg, var(--stock) 0 1.3px, var(--stock-2) 1.3px 2.4px);
+    box-shadow:inset 0 0 8px rgba(90,74,48,.20);
+  }
+  .f-bottom{
+    left:0; top:calc(50% - var(--D)/2); width:var(--W); height:var(--D);
+    transform:rotateX(-90deg) translateZ(calc(var(--H)/2));
+    background:repeating-linear-gradient(90deg, var(--stock) 0 1.3px, var(--stock-2) 1.3px 2.4px);
+    box-shadow:inset 0 0 10px rgba(90,74,48,.28);
+  }
+  /* cast shadow on the "table" */
+  .book::after{
+    content:""; position:absolute; left:-8%; top:100%; width:116%; height:60px;
+    transform:translateY(28px) rotateX(84deg); transform-origin:top;
+    background:radial-gradient(closest-side, rgba(0,0,0,.5), transparent 72%);
+    filter:blur(9px); opacity:.42; pointer-events:none;
+  }
+
+  .scroll-hint{
+    position:absolute; left:50%; bottom:14px; transform:translateX(-50%);
+    font-family:var(--mono); font-size:.6rem; letter-spacing:.2em; text-transform:uppercase;
+    color:var(--ink-soft); opacity:.7; display:flex; flex-direction:column; align-items:center; gap:6px;
+  }
+  .scroll-hint span{animation:nudge 2.2s ease-in-out infinite}
+  @keyframes nudge{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
+
+  /* =========================================================
+     sections
+     ========================================================= */
+  section{padding:78px 0; border-top:1px solid var(--edge)}
+  section h2{font-size:clamp(1.7rem,3.6vw,2.5rem); margin-top:14px; max-width:20ch}
+  section h2 em{font-style:italic; color:var(--oxblood)}
+  .lead{font-size:1.16rem; color:var(--ink-soft); margin-top:20px; max-width:56ch}
+
+  /* craft detail strip */
+  .details{display:grid; gap:2px; margin-top:44px; background:var(--edge); border:1px solid var(--edge); border-radius:5px; overflow:hidden}
+  @media(min-width:820px){ .details{grid-template-columns:repeat(3,1fr)} }
+  .detail{background:var(--paper-2); padding:30px 28px}
+  .detail .demo{height:120px; display:flex; align-items:center; justify-content:center; margin-bottom:20px}
+  .detail h3{font-size:1.22rem}
+  .detail p{margin:10px 0 0; color:var(--ink-soft); font-size:1.02rem}
+  /* foil demo */
+  .foil-demo{
+    font-size:2.5rem; font-weight:600; letter-spacing:.01em;
+    background:linear-gradient(104deg,#524619 6%,#5f5226 26%,#8a805c 46%,#5f5226 62%,#524619 90%);
+    background-size:280% 100%; background-position:calc(var(--sheen,32)*1%) 0;
+    -webkit-background-clip:text; background-clip:text; color:transparent; -webkit-text-fill-color:transparent;
+  }
+  /* drop cap demo */
+  .dc-demo{font-size:1rem; color:var(--ink-soft); max-width:16ch; text-align:left}
+  .dc-demo .dc{float:left; font-size:3.1em; line-height:.8; font-weight:600; color:var(--oxblood); padding:.02em .08em 0 0}
+  .sc{font-variant-caps:all-small-caps; letter-spacing:.05em}
+  /* folio + running head demo */
+  .folio-demo{width:150px; padding:14px 0 0; text-align:center; position:relative}
+  .folio-demo .rh{display:block; font-variant-caps:all-small-caps; letter-spacing:.1em;
+    font-size:.74rem; color:var(--ink-soft); padding-bottom:9px; border-bottom:1px solid var(--edge)}
+  .folio-demo .fol{display:block; margin-top:44px; font-size:.82rem; color:var(--ink-soft);
+    font-variant-numeric:oldstyle-nums}
+
+  /* the spread (open book) */
+  .spread-wrap{margin-top:46px; display:flex; justify-content:center}
+  .spread{
+    display:grid; grid-template-columns:1fr 1fr; max-width:820px; width:100%;
+    background:#f4efe3; color:#2a2118; border-radius:3px; box-shadow:var(--shadow);
+    position:relative; overflow:hidden; border:1px solid #e0d8c4;
+  }
+  :root[data-theme="dark"] .spread{filter:none}
+  .spread::before{ /* center gutter shadow */
+    content:""; position:absolute; left:50%; top:0; bottom:0; width:46px; transform:translateX(-50%);
+    background:linear-gradient(90deg, transparent, rgba(60,44,26,.16) 42%, rgba(60,44,26,.22) 50%, rgba(60,44,26,.16) 58%, transparent);
+    pointer-events:none;
+  }
+  .leaf{padding:44px 40px}
+  .leaf.verso{border-right:0}
+  .leaf .chnum{font-family:var(--mono); font-size:.6rem; letter-spacing:.2em; text-transform:uppercase; color:#9a7526; text-align:center}
+  .leaf h3{font-size:1.4rem; text-align:center; margin:8px 0 22px; color:#241f17}
+  .leaf p{margin:0 0 .8em; font-size:.96rem; line-height:1.6}
+  .leaf p.opening{text-indent:0}
+  .leaf p+p{text-indent:1.3em}
+  .leaf .dc{float:left; font-size:3em; line-height:.82; font-weight:600; color:#7e2b2b; padding:.02em .08em 0 0}
+  .leaf.recto{text-align:center}
+  .leaf.recto .q{font-style:italic; font-size:1rem; line-height:1.5; max-width:22ch; margin:0 auto 1.3em; color:#3a3226}
+  .leaf.recto .words-h{font-family:var(--mono); font-size:.6rem; letter-spacing:.2em; text-transform:uppercase; color:#9a7526; margin-bottom:22px}
+  @media(max-width:640px){
+    .spread{grid-template-columns:1fr}
+    .spread::before{display:none}
+    .leaf.verso{border-bottom:1px solid #e0d8c4}
+  }
+
+  /* voice */
+  .voice{background:var(--paper-2)}
+  .reel{
+    margin:44px auto 0; max-width:560px; background:var(--paper); border:1px solid var(--edge);
+    border-radius:5px; padding:26px 30px 24px; box-shadow:var(--shadow);
+  }
+  .reel-head{display:flex; justify-content:space-between; align-items:baseline; gap:12px; margin-bottom:14px}
+  .reel-head .label{font-size:.6rem}
+  .reel-wave{color:var(--ink-soft)}
+  .reel-wave svg{display:block; width:100%; height:auto}
+  .reel-wave .on{color:var(--oxblood)}
+  .reel-row{display:flex; align-items:center; gap:16px; margin-top:16px}
+  .reel-play{flex:none; width:44px; height:44px; border-radius:50%; border:1px solid var(--oxblood);
+    background:var(--oxblood); color:var(--oxblood-ink); cursor:default; display:grid; place-items:center; opacity:.9}
+  .reel-play svg{width:15px;height:15px;fill:currentColor}
+  .reel-note{margin:0; font-size:.98rem; color:var(--ink-soft); font-style:italic}
+
+  /* promises reprise */
+  .promises{background:var(--paper-2)}
+  .promise-card{border:1px solid var(--oxblood); border-radius:5px; margin-top:36px; padding:8px 30px 26px}
+  .promise-card ul{list-style:none; margin:0; padding:0}
+  .promise-card li{padding:22px 0; border-bottom:1px dashed var(--edge); display:grid; grid-template-columns:auto 1fr; gap:18px; align-items:baseline}
+  .promise-card li:last-child{border-bottom:none}
+  .promise-card .mark{font-family:var(--mono); color:var(--oxblood); font-weight:700; letter-spacing:.05em}
+  .promise-card li p{margin:0; font-size:1.08rem}
+
+  /* what arrives */
+  .arrives{list-style:none; margin:30px auto 0; padding:0; max-width:52ch; text-align:left}
+  .arrives li{padding:12px 0; border-bottom:1px dashed var(--edge); font-size:1.02rem; color:var(--ink-soft)}
+  .arrives li:last-child{border-bottom:none}
+  .arrives b{font-family:var(--mono); font-size:.8rem; letter-spacing:.03em; color:var(--oxblood); font-weight:700}
+  .arrives-note{font-family:var(--mono); font-size:.68rem; letter-spacing:.05em; color:var(--ink-soft); margin-top:16px}
+
+  /* closing */
+  .closing{text-align:center}
+  .closing h2{margin:0 auto; max-width:18ch}
+  .closing .lead{margin:22px auto 0}
+  .closing .cta-row{display:flex; justify-content:center; margin-top:30px}
+
+  footer{border-top:1px solid var(--edge); padding:40px 0 60px; color:var(--ink-soft)}
+  .foot-row{display:flex; flex-wrap:wrap; gap:16px; justify-content:space-between; align-items:center}
+  footer .tag{font-family:var(--mono); font-size:.66rem; letter-spacing:.14em; text-transform:uppercase}
+  footer .disc{font-family:var(--mono); font-size:.63rem; letter-spacing:.03em; margin-top:22px; opacity:.75; max-width:64ch}
+
+  .reveal{opacity:0; transform:translateY(18px); transition:opacity .8s ease, transform .8s ease}
+  .reveal.in{opacity:1; transform:none}
+  :focus-visible{outline:2px solid var(--oxblood); outline-offset:3px; border-radius:2px}
+
+  @media (prefers-reduced-motion:reduce){
+    .float{animation:none}
+    .tilt{transition:none}
+    .reveal{opacity:1; transform:none; transition:none}
+    .btn{transition:none}
+    .scroll-hint span{animation:none}
+  }
+  @media print{
+    .float,.tilt{animation:none; transform:none}
+    .stage{perspective:none}
+    .f-back,.f-spine,.f-fore,.f-top,.f-bottom,.book::after{display:none}
+    .f-front{position:static; box-shadow:none}
+  }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="fleuron" viewBox="0 0 96 12">
+    <line x1="0" y1="6" x2="26" y2="6" stroke="currentColor" stroke-width="1"/>
+    <line x1="70" y1="6" x2="96" y2="6" stroke="currentColor" stroke-width="1"/>
+    <path d="M48 .8 53.4 6 48 11.2 42.6 6Z" fill="currentColor"/>
+    <path d="M33 3.6 35.6 6 33 8.4 30.4 6Z" fill="currentColor"/>
+    <path d="M63 3.6 65.6 6 63 8.4 60.4 6Z" fill="currentColor"/>
+  </symbol>
+  <symbol id="play" viewBox="0 0 16 16"><path d="M4 2.2v11.6L13.4 8Z"/></symbol>
+</defs></svg>
+
+<div class="page">
+  <header class="mast">
+    <div class="mast-row">
+      <div class="brand">
+        <b>Heirloom</b>
+        <span class="tag">Oral history, by telephone</span>
+      </div>
+      <div class="mast-actions">
+        <button class="theme-toggle" aria-label="Toggle light or dark theme" title="Toggle theme">◐</button>
+        <a class="btn small" href="mailto:support@sbkinship.com?subject=Heirloom%20pilot%20%E2%80%94%20reserve%20a%20spot">Reserve a pilot</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap book-root" id="bookRoot" data-cw="irongall">
+
+    <!-- HERO -->
+    <section class="hero" style="border-top:none">
+      <div class="hero-copy">
+        <div class="eyebrow label">The keepsake</div>
+        <h1>A year of phone calls becomes <em>a book you can hold.</em></h1>
+        <p class="lede">Typeset the old way on a 5.5 × 8.5 page — and every word inside is your mother's own. You get the file and a print-ready PDF. Print it at home, or hand it to any print shop.</p>
+        <div class="cta-row">
+          <a class="btn" href="#reserve">Reserve a pilot spot</a>
+          <a class="btn ghost" href="#inside">See inside</a>
+        </div>
+        <div class="cw-row">
+          <span class="cw-label">Set in</span>
+          <div class="swatches" role="group" aria-label="Choose an ink palette">
+            <button class="swatch iron" data-cw="irongall" aria-pressed="true"  aria-label="Iron-gall indigo on ivory"></button>
+            <button class="swatch oxb"  data-cw="oxblood"  aria-pressed="false" aria-label="Oxblood on warm cream"></button>
+            <button class="swatch pea"  data-cw="peacock"  aria-pressed="false" aria-label="Peacock teal on ivory"></button>
+          </div>
+        </div>
+        <p class="fineprint">Shown: an illustrative edition, printed · your parent's book is theirs alone</p>
+      </div>
+
+      <div class="stage" id="stage" aria-hidden="true">
+        <div class="glow"></div>
+        <div class="float">
+          <div class="tilt" id="tilt">
+            <div class="book">
+              <!-- front cover -->
+              <div class="face f-front">
+                <div class="cover-wave" id="coverWave"></div>
+                <p class="cover-cap">Margaret, saying the name of this book</p>
+                <h2 class="cover-title" id="coverTitle">Four Rooms<br>and a Path</h2>
+                <span class="cover-fleuron"><svg><use href="#fleuron"/></svg></span>
+                <p class="cover-byline">The Stories of Margaret “Peggy” Coyle, in Her Own Words</p>
+                <p class="cover-recorded">recorded in the spring of 2026</p>
+                <p class="cover-house">an heirloom book</p>
+              </div>
+              <!-- back -->
+              <div class="face f-back"><span class="press">H</span></div>
+              <!-- spine -->
+              <div class="face f-spine">
+                <span class="spine-txt">Four Rooms and a Path · Heirloom</span>
+              </div>
+              <!-- fore edge, top, bottom -->
+              <div class="face f-fore"></div>
+              <div class="face f-top"></div>
+              <div class="face f-bottom"></div>
+            </div>
+          </div>
+        </div>
+        <div class="scroll-hint"><span>◇</span>turn the page</div>
+      </div>
+    </section>
+
+    <!-- CRAFT -->
+    <section class="reveal">
+      <div class="label">The making</div>
+      <h2>Typeset, <em>not just transcribed.</em></h2>
+      <p class="lead">The same care a fine press gives a first edition — brought to a family's own history. Set in Cormorant and EB Garamond on a 5.5 × 8.5 digest page, with the details that separate a book from a stack of paper.</p>
+      <div class="details">
+        <div class="detail">
+          <div class="demo"><span class="foil-demo" id="foilDemo">Aa</span></div>
+          <h3>A title in gilt</h3>
+          <p>On screen the title catches the light as you move. On paper it prints as a warm gold, inside a hairline double rule.</p>
+        </div>
+        <div class="detail">
+          <div class="demo"><p class="dc-demo"><span class="dc">O</span><span class="sc">utside Gallipolis,</span> right down on the river.</p></div>
+          <h3>Drop caps &amp; small caps</h3>
+          <p>Each chapter opens the way a printed book does — a dropped initial, the first words in small capitals.</p>
+        </div>
+        <div class="detail">
+          <div class="demo"><div class="folio-demo"><span class="rh">Four Rooms and a Path</span><span class="fol">12</span></div></div>
+          <h3>Folios &amp; running heads</h3>
+          <p>Page numbers and a running head on every leaf — the difference between a real book block and a printout.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- INSIDE / SPREAD -->
+    <section id="inside" class="reveal">
+      <div class="label">Inside</div>
+      <h2>Open it, and there she is.</h2>
+      <p class="lead">Her words, arranged into chapters — never rewritten, never smoothed into somebody else's prose. If she says “we was,” the book says “we was.”</p>
+      <div class="spread-wrap">
+        <div class="spread">
+          <div class="leaf verso">
+            <p class="chnum">· i ·</p>
+            <h3>Four Rooms and a Path</h3>
+            <p class="opening"><span class="dc">O</span><span class="sc">utside Gallipolis, Ohio.</span> Right down on the river — the Ohio. We were maybe two mile out of town, on a place my daddy rented.</p>
+            <p>Oh, it was little. Four rooms and a path, we used to say — the path went out to the outhouse. Wood stove in the kitchen that Mama cooked on. In the winter you dressed by that stove or you didn't dress at all.</p>
+            <p>We didn't have two nickels to rub together, but Mama kept us clean as Sunday, all week long. That was her pride.</p>
+          </div>
+          <div class="leaf recto">
+            <p class="words-h">In Her Own Words</p>
+            <p class="q">“In the winter you dressed by that stove or you didn't dress at all.”</p>
+            <p class="q">“She was a good woman. Nobody ever wrote her down anywhere.”</p>
+            <p class="q">“He had big ears and a borrowed suit. But when the band struck up, that boy could dance.”</p>
+            <p class="q">“People tell girls it's all fireworks. It ain't. It's a man who'll fix your mother's step.”</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VOICE -->
+    <section class="voice reveal">
+      <div class="label">And her voice</div>
+      <h2>Five minutes of her, kept for good.</h2>
+      <p class="lead">Delivered alongside the edition: a short recording cut from the calls — her actual laugh, her actual way of telling it. The page a family frames; the file a grandchild plays long after.</p>
+      <div class="reel">
+        <div class="reel-head">
+          <span class="label">the keepsake reel</span>
+          <span class="label dim">her own voice</span>
+        </div>
+        <div class="reel-wave" id="reelWave"></div>
+        <div class="reel-row">
+          <span class="reel-play" aria-hidden="true"><svg><use href="#play"/></svg></span>
+          <p class="reel-note">Cut from the recordings when the calls are done — and never used to train anything.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROMISES -->
+    <section class="promises reveal">
+      <div class="label">Why it looks like this</div>
+      <h2>A keepsake, <em>not a technology stunt.</em></h2>
+      <p class="lead">Everything here is in service of one thing lasting a hundred years on a shelf. That's also why we hold a hard line on what we will never do.</p>
+      <div class="promise-card">
+        <ul>
+          <li><span class="mark">i.</span><p>We will <strong>never</strong> create a synthetic “clone,” voice double, or avatar of your parent. We preserve their voice — we do not imitate it.</p></li>
+          <li><span class="mark">ii.</span><p>Your recordings are <strong>never</strong> sold, shared outside your family, or used to train any AI.</p></li>
+          <li><span class="mark">iii.</span><p>Their words are arranged, never authored. Nothing in the book is invented; nothing is put in their mouth.</p></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- CLOSING -->
+    <section id="reserve" class="closing reveal">
+      <div class="label" style="display:block; text-align:center">The pilot</div>
+      <h2>Hold your family's book this year.</h2>
+      <p class="lead">We're running a small first group of families — four weekly calls and your finished keepsakes, at a fraction of what it will cost later, in exchange for your honest reaction.</p>
+      <ul class="arrives">
+        <li><b>keepsake.html</b> — the edition, self-contained. Opens offline, on any device, forever.</li>
+        <li><b>keepsake-master.pdf</b> — the book block at 5.5 × 8.5, ready for your printer or any print shop.</li>
+        <li><b>reel.mp3</b> — the short recording, in her own voice.</li>
+      </ul>
+      <p class="arrives-note">Printing and binding are yours to arrange — we don't ship a physical book.</p>
+      <div class="cta-row">
+        <a class="btn" href="mailto:support@sbkinship.com?subject=Heirloom%20pilot%20%E2%80%94%20reserve%20a%20spot&amp;body=I'd%20like%20to%20reserve%20a%20pilot%20spot.%20My%20parent's%20first%20name%3A%20____%20%C2%B7%20Best%20number%20to%20reach%20me%3A%20____">Reserve a pilot spot</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <div class="foot-row">
+        <div class="brand"><b>Heirloom</b></div>
+        <span class="tag">A pilot program · support@sbkinship.com</span>
+      </div>
+      <p class="disc">The book shown is an illustrative edition, rendered as printed — sample stories are composites, not a real client. Heirloom delivers a self-contained HTML file and a print-ready PDF; printing and binding are the family's to arrange. Conversations are recorded only to produce a family's own keepsakes, with the consent of both the family and the storyteller.</p>
+    </div>
+  </footer>
+</div>
+
+<script>
+  // ---- deterministic waveforms (voice made visible; static) ----
+  function bars(el, n, w, h, bw, words, seed){
+    if(!el) return;
+    var cy=h/2, step=w/n, out='';
+    function env(x){ var s=0; for(var k=0;k<words.length;k++){var c=words[k][0],ww=words[k][1],a=words[k][2]; s+=a*Math.exp(-Math.pow((x-c)/ww,2));} return s; }
+    for(var i=0;i<n;i++){
+      var x=i/(n-1);
+      var tex=0.62+0.38*Math.abs(Math.sin(i*seed)*0.6+Math.sin(i*0.83+2.1)*0.4);
+      var bh=Math.max(0.02, Math.min(1, env(x)*tex))*(h/2-2);
+      out+='<rect x="'+(i*step).toFixed(1)+'" y="'+(cy-bh).toFixed(1)+'" width="'+bw+'" height="'+(2*bh).toFixed(1)+'" rx="'+(bw/2)+'" fill="currentColor"/>';
+    }
+    el.innerHTML='<svg viewBox="0 0 '+w+' '+h+'" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">'+out+'</svg>';
+  }
+  var COVER=[[0.10,0.055,0.88],[0.315,0.062,1.0],[0.52,0.038,0.58],[0.645,0.02,0.42],[0.84,0.068,0.94]];
+  var REEL=[[0.06,0.045,0.8],[0.20,0.06,0.95],[0.34,0.03,0.5],[0.47,0.055,0.85],[0.62,0.04,0.7],[0.74,0.025,0.45],[0.88,0.06,0.9]];
+  bars(document.getElementById('coverWave'),120,600,120,2.4,COVER,2.7);
+  bars(document.getElementById('reelWave'),96,560,54,3.4,REEL,1.9);
+
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // ---- hero: pointer parallax tilt + foil sheen ----
+  (function(){
+    var stage=document.getElementById('stage'), tilt=document.getElementById('tilt');
+    var title=document.getElementById('coverTitle');
+    if(!stage||!tilt) return;
+    var baseRX=7, baseRY=34, curRX=baseRX, curRY=baseRY, curSheen=32, raf=0;
+    function apply(){
+      tilt.style.setProperty('--rx', curRX.toFixed(2)+'deg');
+      tilt.style.setProperty('--ry', curRY.toFixed(2)+'deg');
+      title.style.setProperty('--sheen', curSheen.toFixed(1));
+      raf=0;
+    }
+    function queue(){ if(!raf) raf=requestAnimationFrame(apply); }
+    function onMove(e){
+      var r=stage.getBoundingClientRect();
+      var px=(e.clientX-r.left)/r.width - 0.5;   // -0.5..0.5
+      var py=(e.clientY-r.top)/r.height - 0.5;
+      curRY = baseRY + px*40;      // swing left/right
+      curRX = baseRX - py*24;      // tip up/down
+      curSheen = 12 + (px+0.5)*70; // light rakes across the foil
+      stage.classList.add('dragging');
+      queue();
+    }
+    function reset(){
+      curRX=baseRX; curRY=baseRY; curSheen=32;
+      stage.classList.remove('dragging');
+      queue();
+    }
+    if(!reduce && matchMedia('(hover:hover)').matches){
+      stage.addEventListener('pointermove', onMove);
+      stage.addEventListener('pointerleave', reset);
+    }
+    // gentle idle foil sweep when untouched
+    if(!reduce){
+      var t0=performance.now();
+      (function sweep(now){
+        if(!stage.classList.contains('dragging')){
+          curSheen = 32 + Math.sin((now-t0)/2600)*26;
+          queue();
+        }
+        requestAnimationFrame(sweep);
+      })(t0);
+    }
+  })();
+
+  // ---- colorway swatches ----
+  (function(){
+    var root=document.getElementById('bookRoot');
+    var sw=document.querySelectorAll('.swatch');
+    sw.forEach(function(b){
+      b.addEventListener('click', function(){
+        root.setAttribute('data-cw', b.getAttribute('data-cw'));
+        sw.forEach(function(x){ x.setAttribute('aria-pressed', x===b ? 'true':'false'); });
+      });
+    });
+  })();
+
+  // ---- scroll reveal ----
+  (function(){
+    var els=document.querySelectorAll('.reveal');
+    if(reduce || !('IntersectionObserver' in window)){ els.forEach(function(e){e.classList.add('in')}); return; }
+    var io=new IntersectionObserver(function(en){ en.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} }); }, {threshold:.12});
+    els.forEach(function(e){ io.observe(e); });
+  })();
+
+  // ---- theme toggle ----
+  (function(){
+    var root=document.documentElement, btn=document.querySelector('.theme-toggle');
+    if(!btn) return;
+    btn.addEventListener('click', function(){
+      var cur=root.getAttribute('data-theme');
+      if(!cur){ cur=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'; }
+      root.setAttribute('data-theme', cur==='dark'?'light':'dark');
+    });
+  })();
+</script>
+</body>
+</html>
